@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_0fr9mxs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.33.1">
+  <bpmn:process id="app-process" name="Analysis Manager" isExecutable="true" camunda:historyTimeToLive="180">
+    <bpmn:extensionElements />
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1r611sg</bpmn:outgoing>
+      <bpmn:outgoing>Flow_140g3uo</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_16gzt2m" sourceRef="say-hello" targetRef="Activity_1l5kqky" />
+    <bpmn:userTask id="say-hello" name="Diabetes" camunda:candidateUsers="demo">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="analysisTypeGlucose" label="Analysis Type (Glucose)" type="string" />
+          <camunda:formField id="analysisStatusGlucose" label="Analysis Status (Glucose)" type="string" />
+          <camunda:formField id="isDiabetic" label="Diabetic Diagnosis" type="boolean" />
+          <camunda:formField id="gender" label="Gender" type="string" />
+          <camunda:formField id="glucose" label="Glucose" type="string">
+            <camunda:validation />
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_16mdc2p</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_16gzt2m</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_1tgk46y" name="Anemia">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="analysisTypeHemoglobin" label="Analysis Type (Hemoglobin)" type="string" />
+          <camunda:formField id="analysisStatusHemoglobin" label="Analysis Status (Hemoglobin)" type="string" />
+          <camunda:formField id="isAnemic" label="Anemia Diagnosis" type="boolean" />
+          <camunda:formField id="gender" label="Gender" type="string" />
+          <camunda:formField id="hemoglobin" label="Hemoglobin" type="long" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0sm47lh</bpmn:incoming>
+      <bpmn:outgoing>Flow_09wjd4o</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_11dujjj" name="No Diagnosis">
+      <bpmn:incoming>Flow_0kl86r4</bpmn:incoming>
+      <bpmn:incoming>Flow_09r8jp5</bpmn:incoming>
+      <bpmn:outgoing>Flow_139fewo</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_1r611sg" sourceRef="StartEvent_1" targetRef="Activity_068ocwz" />
+    <bpmn:exclusiveGateway id="Gateway_04x029t">
+      <bpmn:incoming>Flow_0xnpumq</bpmn:incoming>
+      <bpmn:outgoing>Flow_0sm47lh</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0kl86r4</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0sm47lh" sourceRef="Gateway_04x029t" targetRef="Activity_1tgk46y">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isAnemic}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0kl86r4" sourceRef="Gateway_04x029t" targetRef="Activity_11dujjj">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!isAnemic}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:exclusiveGateway id="Gateway_1po8xxs">
+      <bpmn:incoming>Flow_1d24xkx</bpmn:incoming>
+      <bpmn:outgoing>Flow_16mdc2p</bpmn:outgoing>
+      <bpmn:outgoing>Flow_09r8jp5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_16mdc2p" sourceRef="Gateway_1po8xxs" targetRef="say-hello">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isDiabetic}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_09r8jp5" sourceRef="Gateway_1po8xxs" targetRef="Activity_11dujjj">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!isDiabetic}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_07nczh3" sourceRef="Activity_1l5kqky" targetRef="Activity_01uaqol" />
+    <bpmn:serviceTask id="Activity_1l5kqky" name="Diabetic Treatment" camunda:delegateExpression="#{diabeticTreatmentDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="glucose">${glucose}</camunda:inputParameter>
+          <camunda:inputParameter name="gender">${gender}</camunda:inputParameter>
+          <camunda:outputParameter name="treatmentDiabetes">${treatment}</camunda:outputParameter>
+          <camunda:outputParameter name="glucoseAfterTreatment">${glucoseAfterTreatment}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_16gzt2m</bpmn:incoming>
+      <bpmn:outgoing>Flow_07nczh3</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Activity_01uaqol" name="Insulin Therapy">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="treatmentDiabetes" label="Treatment of Diabetes" type="string" />
+          <camunda:formField id="glucoseAfterTreatment" label="Glucose Level After Treatment" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_07nczh3</bpmn:incoming>
+      <bpmn:outgoing>Flow_11jdef2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_06zaskf">
+      <bpmn:incoming>Flow_0cijht2</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_139fewo" sourceRef="Activity_11dujjj" targetRef="Gateway_1aiazhs" />
+    <bpmn:sequenceFlow id="Flow_0cijht2" sourceRef="Activity_14auora" targetRef="Event_06zaskf" />
+    <bpmn:sequenceFlow id="Flow_09wjd4o" sourceRef="Activity_1tgk46y" targetRef="Activity_1uj4pgy" />
+    <bpmn:serviceTask id="Activity_1uj4pgy" name="Anemic Treatment" camunda:delegateExpression="#{anemicTreatmentDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="hemoglobin">${hemoglobin}</camunda:inputParameter>
+          <camunda:inputParameter name="gender">${gender}</camunda:inputParameter>
+          <camunda:outputParameter name="treatmentAnemia">${treatment}</camunda:outputParameter>
+          <camunda:outputParameter name="hemoglobinAfterTreatment">${hemoglobinAfterTreatment}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_09wjd4o</bpmn:incoming>
+      <bpmn:outgoing>Flow_14uq6s6</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_14uq6s6" sourceRef="Activity_1uj4pgy" targetRef="Activity_0i0wikh" />
+    <bpmn:userTask id="Activity_0i0wikh" name="Iron Therapy">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="treatmentAnemia" label="Treatment of Anemia" type="string" />
+          <camunda:formField id="hemoglobinAfterTreatment" label="Hemoglobin Level After Treatment" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_14uq6s6</bpmn:incoming>
+      <bpmn:outgoing>Flow_0tnfyd6</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_14auora" name="Healthy Patient">
+      <bpmn:incoming>Flow_0e70x73</bpmn:incoming>
+      <bpmn:outgoing>Flow_0cijht2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:subProcess id="Activity_068ocwz">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="hemoglobin">${hemoglobin}</camunda:inputParameter>
+          <camunda:inputParameter name="gender">${gender}</camunda:inputParameter>
+          <camunda:outputParameter name="analysisTypeHemoglobin">${analysisType}</camunda:outputParameter>
+          <camunda:outputParameter name="analysisStatusHemoglobin">${analysisStatus}</camunda:outputParameter>
+          <camunda:outputParameter name="isAnemic">${isAnemic}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1r611sg</bpmn:incoming>
+      <bpmn:outgoing>Flow_0xnpumq</bpmn:outgoing>
+      <bpmn:startEvent id="Event_0qjrtqa">
+        <bpmn:outgoing>Flow_15qrcwr</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:serviceTask id="Activity_02em92c" name="Hemoglobin Indicator" camunda:delegateExpression="#{hemoglobinDelegate}">
+        <bpmn:incoming>Flow_15qrcwr</bpmn:incoming>
+      </bpmn:serviceTask>
+      <bpmn:sequenceFlow id="Flow_15qrcwr" sourceRef="Event_0qjrtqa" targetRef="Activity_02em92c" />
+    </bpmn:subProcess>
+    <bpmn:sequenceFlow id="Flow_0xnpumq" sourceRef="Activity_068ocwz" targetRef="Gateway_04x029t" />
+    <bpmn:subProcess id="Activity_1o37d5q">
+      <bpmn:incoming>Flow_140g3uo</bpmn:incoming>
+      <bpmn:outgoing>Flow_1d24xkx</bpmn:outgoing>
+      <bpmn:startEvent id="Event_1k7i2pv">
+        <bpmn:outgoing>Flow_0j54217</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:serviceTask id="Activity_0hrz5s2" name="Glucose Indicator" camunda:delegateExpression="#{glucoseDelegate}">
+        <bpmn:extensionElements>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="glucose">${glucose}</camunda:inputParameter>
+            <camunda:inputParameter name="gender">${gender}</camunda:inputParameter>
+            <camunda:outputParameter name="analysisTypeGlucose">${analysisType}</camunda:outputParameter>
+            <camunda:outputParameter name="analysisStatusGlucose">${analysisStatus}</camunda:outputParameter>
+            <camunda:outputParameter name="isDiabetic">${isDiabetic}</camunda:outputParameter>
+          </camunda:inputOutput>
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_0j54217</bpmn:incoming>
+      </bpmn:serviceTask>
+      <bpmn:sequenceFlow id="Flow_0j54217" sourceRef="Event_1k7i2pv" targetRef="Activity_0hrz5s2" />
+    </bpmn:subProcess>
+    <bpmn:sequenceFlow id="Flow_1d24xkx" sourceRef="Activity_1o37d5q" targetRef="Gateway_1po8xxs" />
+    <bpmn:sequenceFlow id="Flow_140g3uo" sourceRef="StartEvent_1" targetRef="Activity_1o37d5q" />
+    <bpmn:sequenceFlow id="Flow_0e70x73" sourceRef="Gateway_1aiazhs" targetRef="Activity_14auora" />
+    <bpmn:sequenceFlow id="Flow_11jdef2" sourceRef="Activity_01uaqol" targetRef="Gateway_1aiazhs" />
+    <bpmn:sequenceFlow id="Flow_0tnfyd6" sourceRef="Activity_0i0wikh" targetRef="Gateway_1aiazhs" />
+    <bpmn:inclusiveGateway id="Gateway_1aiazhs">
+      <bpmn:incoming>Flow_139fewo</bpmn:incoming>
+      <bpmn:incoming>Flow_11jdef2</bpmn:incoming>
+      <bpmn:incoming>Flow_0tnfyd6</bpmn:incoming>
+      <bpmn:outgoing>Flow_0e70x73</bpmn:outgoing>
+    </bpmn:inclusiveGateway>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="app-process">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="152" y="349" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_08mft2c_di" bpmnElement="say-hello">
+        <dc:Bounds x="930" y="490" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1iuf538_di" bpmnElement="Activity_1tgk46y">
+        <dc:Bounds x="930" y="170" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ybxjgw_di" bpmnElement="Activity_11dujjj">
+        <dc:Bounds x="1110" y="327" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_04x029t_di" bpmnElement="Gateway_04x029t" isMarkerVisible="true">
+        <dc:Bounds x="765" y="185" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1po8xxs_di" bpmnElement="Gateway_1po8xxs" isMarkerVisible="true">
+        <dc:Bounds x="765" y="505" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_10rvyft_di" bpmnElement="Activity_1l5kqky">
+        <dc:Bounds x="1110" y="490" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1j5kkep_di" bpmnElement="Activity_01uaqol">
+        <dc:Bounds x="1290" y="490" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_06zaskf_di" bpmnElement="Event_06zaskf">
+        <dc:Bounds x="1642" y="349" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1tacyfi_di" bpmnElement="Activity_1uj4pgy">
+        <dc:Bounds x="1110" y="170" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1sw9oyy_di" bpmnElement="Activity_0i0wikh">
+        <dc:Bounds x="1290" y="170" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_02k6lc0_di" bpmnElement="Activity_14auora">
+        <dc:Bounds x="1420" y="327" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1invfpz_di" bpmnElement="Gateway_1aiazhs">
+        <dc:Bounds x="1315" y="342" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_068ocwz_di" bpmnElement="Activity_068ocwz" isExpanded="true">
+        <dc:Bounds x="320" y="110" width="350" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0qjrtqa_di" bpmnElement="Event_0qjrtqa">
+        <dc:Bounds x="360" y="192" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0a7jfff_di" bpmnElement="Activity_02em92c">
+        <dc:Bounds x="520" y="170" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_15qrcwr_di" bpmnElement="Flow_15qrcwr">
+        <di:waypoint x="396" y="210" />
+        <di:waypoint x="520" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_1o37d5q_di" bpmnElement="Activity_1o37d5q" isExpanded="true">
+        <dc:Bounds x="320" y="425" width="350" height="210" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1k7i2pv_di" bpmnElement="Event_1k7i2pv">
+        <dc:Bounds x="360" y="517" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_10tw46a" bpmnElement="Activity_0hrz5s2">
+        <dc:Bounds x="520" y="495" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0j54217_di" bpmnElement="Flow_0j54217">
+        <di:waypoint x="396" y="535" />
+        <di:waypoint x="520" y="535" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_16gzt2m_di" bpmnElement="SequenceFlow_16gzt2m">
+        <di:waypoint x="1030" y="530" />
+        <di:waypoint x="1110" y="530" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1r611sg_di" bpmnElement="Flow_1r611sg">
+        <di:waypoint x="188" y="367" />
+        <di:waypoint x="495" y="367" />
+        <di:waypoint x="495" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0sm47lh_di" bpmnElement="Flow_0sm47lh">
+        <di:waypoint x="815" y="210" />
+        <di:waypoint x="930" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kl86r4_di" bpmnElement="Flow_0kl86r4">
+        <di:waypoint x="790" y="235" />
+        <di:waypoint x="790" y="300" />
+        <di:waypoint x="1160" y="300" />
+        <di:waypoint x="1160" y="327" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16mdc2p_di" bpmnElement="Flow_16mdc2p">
+        <di:waypoint x="815" y="530" />
+        <di:waypoint x="930" y="530" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_09r8jp5_di" bpmnElement="Flow_09r8jp5">
+        <di:waypoint x="790" y="505" />
+        <di:waypoint x="790" y="440" />
+        <di:waypoint x="1160" y="440" />
+        <di:waypoint x="1160" y="407" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_07nczh3_di" bpmnElement="Flow_07nczh3">
+        <di:waypoint x="1210" y="530" />
+        <di:waypoint x="1290" y="530" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_139fewo_di" bpmnElement="Flow_139fewo">
+        <di:waypoint x="1210" y="367" />
+        <di:waypoint x="1315" y="367" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0cijht2_di" bpmnElement="Flow_0cijht2">
+        <di:waypoint x="1520" y="367" />
+        <di:waypoint x="1642" y="367" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_09wjd4o_di" bpmnElement="Flow_09wjd4o">
+        <di:waypoint x="1030" y="210" />
+        <di:waypoint x="1110" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14uq6s6_di" bpmnElement="Flow_14uq6s6">
+        <di:waypoint x="1210" y="210" />
+        <di:waypoint x="1290" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0xnpumq_di" bpmnElement="Flow_0xnpumq">
+        <di:waypoint x="670" y="210" />
+        <di:waypoint x="765" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1d24xkx_di" bpmnElement="Flow_1d24xkx">
+        <di:waypoint x="670" y="530" />
+        <di:waypoint x="765" y="530" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_140g3uo_di" bpmnElement="Flow_140g3uo">
+        <di:waypoint x="188" y="367" />
+        <di:waypoint x="495" y="367" />
+        <di:waypoint x="495" y="425" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0e70x73_di" bpmnElement="Flow_0e70x73">
+        <di:waypoint x="1365" y="367" />
+        <di:waypoint x="1420" y="367" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11jdef2_di" bpmnElement="Flow_11jdef2">
+        <di:waypoint x="1340" y="490" />
+        <di:waypoint x="1340" y="392" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0tnfyd6_di" bpmnElement="Flow_0tnfyd6">
+        <di:waypoint x="1340" y="250" />
+        <di:waypoint x="1340" y="342" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
