@@ -18,3 +18,4 @@ public enum Gender {
         return hemoglobin < hemoLimit;
     }
 }
+
