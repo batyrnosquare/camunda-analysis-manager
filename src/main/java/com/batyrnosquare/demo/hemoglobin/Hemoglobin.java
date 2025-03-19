@@ -18,6 +18,7 @@ public class Hemoglobin implements JavaDelegate {
 
         boolean isAnemic = gender.isAnemic(hemoglobin);
 
+
         if (isAnemic) {
             delex.setVariable("analysisType", "Anemia Analyse");
             delex.setVariable("analysisStatus", "Urgently to Hematology Department!");

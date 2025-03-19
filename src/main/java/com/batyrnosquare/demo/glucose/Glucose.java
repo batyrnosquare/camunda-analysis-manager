@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 public class Glucose implements JavaDelegate {
 
 
-
     @Override
     public void execute(DelegateExecution delex) throws Exception {
 

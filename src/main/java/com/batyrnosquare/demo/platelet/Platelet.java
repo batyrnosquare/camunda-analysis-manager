@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component("plateletDelegate")
 public class Platelet implements JavaDelegate {
+
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
         int platelet = (int) delegateExecution.getVariable("platelet");
