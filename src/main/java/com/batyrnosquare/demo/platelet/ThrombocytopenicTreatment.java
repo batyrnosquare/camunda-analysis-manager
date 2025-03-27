@@ -16,5 +16,9 @@ public class ThrombocytopenicTreatment implements JavaDelegate {
         int plateletAfterTreatment = AppConstants.PLATELET_LOWER_LIMIT;
 
         delegateExecution.setVariable("plateletAfterTreatment", plateletAfterTreatment);
+
+        if (plateletAfterTreatment >= AppConstants.PLATELET_LOWER_LIMIT) {
+            delegateExecution.setVariable("isThrombocytopenic", false);
+        }
     }
 }

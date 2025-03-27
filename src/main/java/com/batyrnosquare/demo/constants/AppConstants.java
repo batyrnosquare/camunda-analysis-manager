@@ -9,4 +9,6 @@ public class AppConstants {
     public static final int PLATELET_LOWER_LIMIT = 150;
     public static final int PLATELET_UPPER_LIMIT = 450;
 
+    public static final String NO_DIAGNOSIS = "No Diagnosis";
+
 }

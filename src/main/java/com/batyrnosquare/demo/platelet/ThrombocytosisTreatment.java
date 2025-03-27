@@ -16,5 +16,8 @@ public class ThrombocytosisTreatment implements JavaDelegate {
         int plateletAfterTreatment = AppConstants.PLATELET_UPPER_LIMIT;
 
         delegateExecution.setVariable("plateletAfterTreatment", plateletAfterTreatment);
+        if (plateletAfterTreatment <= AppConstants.PLATELET_UPPER_LIMIT) {
+            delegateExecution.setVariable("isThrombocytosis", false);
+        }
     }
 }

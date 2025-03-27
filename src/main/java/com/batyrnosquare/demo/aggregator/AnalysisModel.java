@@ -1,24 +1,23 @@
 package com.batyrnosquare.demo.aggregator;
 
-import com.batyrnosquare.demo.constants.Gender;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.batyrnosquare.demo.patients.PatientModel;
+import jakarta.persistence.*;
 
 @Entity(name = "analysis")
 public class AnalysisModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Gender gender;
+    @ManyToOne
+    @JoinColumn(name = "patient_id")
+    private PatientModel patient;
     private int hemoglobin;
     private int platelet;
     private double glucose;
 
-    public AnalysisModel(Long id, Gender gender, int hemoglobin, int platelet, double glucose) {
+    public AnalysisModel(Long id, PatientModel patient, int hemoglobin, int platelet, double glucose) {
         this.id = id;
-        this.gender = gender;
+        this.patient = patient;
         this.hemoglobin = hemoglobin;
         this.platelet = platelet;
         this.glucose = glucose;
@@ -35,12 +34,12 @@ public class AnalysisModel {
         this.id = id;
     }
 
-    public Gender getGender() {
-        return gender;
+    public PatientModel getPatient() {
+        return patient;
     }
 
-    public void setGender(Gender gender) {
-        this.gender = gender;
+    public void setPatient(PatientModel patient) {
+        this.patient = patient;
     }
 
     public int getHemoglobin() {

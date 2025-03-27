@@ -19,5 +19,8 @@ public class DiabeticTreatment implements JavaDelegate {
         double glucoseAfterTreatment = glucose - (glucose - AppConstants.UNISEX_GLUCOSE_LIMIT);
 
         delex.setVariable("glucoseAfterTreatment", glucoseAfterTreatment);
+        if (glucoseAfterTreatment < AppConstants.UNISEX_GLUCOSE_LIMIT) {
+            delex.setVariable("isDiabetic", false);
+        }
     }
 }

@@ -2,8 +2,10 @@ package com.batyrnosquare.demo.hemoglobin;
 
 import com.batyrnosquare.demo.constants.AppConstants;
 import com.batyrnosquare.demo.constants.Gender;
+import com.batyrnosquare.demo.patients.PatientModel;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.camunda.spin.Spin;
 import org.springframework.stereotype.Component;
 
 @Component("hemoglobinDelegate")
@@ -13,7 +15,8 @@ public class Hemoglobin implements JavaDelegate {
     @Override
     public void execute(DelegateExecution delex) throws Exception {
 
-        Gender gender = Gender.valueOf((String) delex.getVariable("gender"));
+        PatientModel patient = Spin.JSON(delex.getVariableTyped("patient").getValue()).mapTo(PatientModel.class);
+        Gender gender = patient.getGender();
         int hemoglobin = (int) delex.getVariable("hemoglobin");
 
         boolean isAnemic = gender.isAnemic(hemoglobin);
