@@ -1,16 +1,24 @@
 package com.batyrnosquare.demo.aggregator;
 
 import com.batyrnosquare.demo.patients.PatientModel;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity(name = "analysis")
 public class AnalysisModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
-    @JoinColumn(name = "patient_id")
+    @Cascade(CascadeType.ALL)
+    @JoinColumn(name = "patient_id", nullable = false)
+    @JsonBackReference
     private PatientModel patient;
+
+
     private int hemoglobin;
     private int platelet;
     private double glucose;
@@ -24,6 +32,13 @@ public class AnalysisModel {
     }
 
     public AnalysisModel() {
+    }
+
+    public AnalysisModel(PatientModel patient, int hemoglobin, int platelet, double glucose) {
+        this.patient = patient;
+        this.hemoglobin = hemoglobin;
+        this.platelet = platelet;
+        this.glucose = glucose;
     }
 
     public Long getId() {

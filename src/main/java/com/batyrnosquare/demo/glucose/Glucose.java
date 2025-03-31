@@ -14,15 +14,17 @@ public class Glucose implements JavaDelegate {
 
         double glucose = parseDouble(delex.getVariable("glucose"), delex.getVariable("glucose").toString());
 
-        if (glucose > AppConstants.UNISEX_GLUCOSE_LIMIT) {
+        boolean isDiabetic = glucose > AppConstants.UNISEX_GLUCOSE_LIMIT;
+
+        if (isDiabetic) {
             delex.setVariable("analysisType", "Diabetes Analyse");
             delex.setVariable("analysisStatus", "Urgently to Endocrinology Department!");
-            delex.setVariable("isDiabetic", true);
         }else{
             delex.setVariable("analysisType", AppConstants.DEFAULT_ANALYSIS_TYPE);
             delex.setVariable("analysisStatus", AppConstants.DEFAULT_ANALYSIS_STATUS);
-            delex.setVariable("isDiabetic", false);
         }
+        delex.setVariable("isDiabetic", isDiabetic);
+
     }
 
     public static double parseDouble(Object value, String glucoseStr) {

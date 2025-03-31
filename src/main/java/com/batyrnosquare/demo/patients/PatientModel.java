@@ -1,13 +1,15 @@
 package com.batyrnosquare.demo.patients;
 
+import com.batyrnosquare.demo.aggregator.AnalysisModel;
 import com.batyrnosquare.demo.constants.Gender;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 
-@Entity(name = "users")
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity(name = "patients")
 public class PatientModel {
 
     @Id
@@ -21,20 +23,30 @@ public class PatientModel {
     @Email
     private String email;
 
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    private String diagnosis;
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<DiagnosisModel> diagnosis;
 
-    public PatientModel(Long id, String name, String surname, String email, Gender gender, String diagnosis) {
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<AnalysisModel> analysis;
+
+    public PatientModel(Long id, String name, String surname, String email, Gender gender, List<DiagnosisModel> diagnosis, List<AnalysisModel> analysis) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.gender = gender;
         this.diagnosis = diagnosis;
+        this.analysis = analysis;
     }
 
     public PatientModel() {
+        this.diagnosis = new ArrayList<>();
+        this.analysis = new ArrayList<>();
     }
 
     public Long getId() {
@@ -77,11 +89,19 @@ public class PatientModel {
         this.gender = gender;
     }
 
-    public String getDiagnosis() {
+    public List<DiagnosisModel> getDiagnosis() {
         return diagnosis;
     }
 
-    public void setDiagnosis(String diagnosis) {
+    public void setDiagnosis(List<DiagnosisModel> diagnosis) {
         this.diagnosis = diagnosis;
+    }
+
+    public List<AnalysisModel> getAnalysis() {
+        return analysis;
+    }
+
+    public void setAnalysis(List<AnalysisModel> analysis) {
+        this.analysis = analysis;
     }
 }
