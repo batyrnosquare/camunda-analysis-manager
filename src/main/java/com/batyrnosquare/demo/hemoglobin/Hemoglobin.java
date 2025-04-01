@@ -49,6 +49,8 @@ public class Hemoglobin implements JavaDelegate {
 
 
         delex.setVariable("isAnemic", isAnemic);
-        diagnosisRepository.save(diagnosis);
+        if (diagnosis.getName() != null) {
+            diagnosisRepository.save(diagnosis);
+        }
     }
 }

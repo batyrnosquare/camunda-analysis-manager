@@ -41,7 +41,9 @@ public class Glucose implements JavaDelegate {
         }
         delex.setVariable("isDiabetic", isDiabetic);
 
-        diagnosisRepository.save(diagnosis);
+        if (diagnosis.getName() != null) {
+            diagnosisRepository.save(diagnosis);
+        }
 
     }
 

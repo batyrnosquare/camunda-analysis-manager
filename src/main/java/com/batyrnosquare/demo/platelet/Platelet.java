@@ -43,6 +43,8 @@ public class Platelet implements JavaDelegate {
 
         delex.setVariable("isThrombocytopenic", isThrombocytopenic);
         delex.setVariable("isThrombocytosis", isThrombocytosis);
-        diagnosisRepository.save(diagnosis);
+        if (diagnosis.getName() != null) {
+            diagnosisRepository.save(diagnosis);
+        }
     }
 }
