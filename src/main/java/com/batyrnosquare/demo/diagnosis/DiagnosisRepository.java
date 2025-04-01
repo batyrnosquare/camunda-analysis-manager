@@ -8,4 +8,6 @@ import java.util.Optional;
 @Repository
 public interface DiagnosisRepository extends JpaRepository<DiagnosisModel, Long> {
     Optional<DiagnosisModel> findById(Long diagnosisId);
+
+    Optional<DiagnosisModel> findByName(String name);
 }
