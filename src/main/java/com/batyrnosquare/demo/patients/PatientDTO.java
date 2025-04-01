@@ -1,6 +1,7 @@
 package com.batyrnosquare.demo.patients;
 
 import com.batyrnosquare.demo.constants.Gender;
+import com.batyrnosquare.demo.diagnosis.DiagnosisModel;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 

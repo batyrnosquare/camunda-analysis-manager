@@ -2,6 +2,7 @@ package com.batyrnosquare.demo.patients;
 
 import com.batyrnosquare.demo.aggregator.AnalysisModel;
 import com.batyrnosquare.demo.constants.Gender;
+import com.batyrnosquare.demo.diagnosis.DiagnosisModel;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -16,21 +17,24 @@ public class PatientModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
     private String name;
 
+    @Column
     private String surname;
 
     @Email
+    @Column(unique = true)
     private String email;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<DiagnosisModel> diagnosis;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<AnalysisModel> analysis;
 

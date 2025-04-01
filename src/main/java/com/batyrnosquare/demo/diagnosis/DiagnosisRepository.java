@@ -1,4 +1,4 @@
-package com.batyrnosquare.demo.patients;
+package com.batyrnosquare.demo.diagnosis;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -1,7 +1,6 @@
 package com.batyrnosquare.demo.aggregator;
 
 import com.batyrnosquare.demo.patients.PatientModel;
-import com.batyrnosquare.demo.patients.PatientRepository;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.camunda.spin.Spin;
@@ -14,12 +13,10 @@ import static com.batyrnosquare.demo.glucose.Glucose.parseDouble;
 public class AnalysisResults implements JavaDelegate {
     private final AnalysisRepository analysisRepository;
 
-    private final PatientRepository patientRepository;
 
     @Autowired
-    public AnalysisResults(AnalysisRepository analysisRepository, PatientRepository patientRepository) {
+    public AnalysisResults(AnalysisRepository analysisRepository) {
         this.analysisRepository = analysisRepository;
-        this.patientRepository = patientRepository;
     }
 
     @Override
