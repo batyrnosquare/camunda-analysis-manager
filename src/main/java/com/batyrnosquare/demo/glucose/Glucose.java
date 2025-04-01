@@ -6,7 +6,6 @@ import com.batyrnosquare.demo.diagnosis.DiagnosisRepository;
 import com.batyrnosquare.demo.patients.PatientModel;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
-import org.camunda.spin.Spin;
 import org.springframework.stereotype.Component;
 
 @Component("glucoseDelegate")
@@ -23,7 +22,7 @@ public class Glucose implements JavaDelegate {
     public void execute(DelegateExecution delex) throws Exception {
         DiagnosisModel diagnosis = new DiagnosisModel();
 
-        PatientModel patient = Spin.JSON(delex.getVariableTyped("patient").getValue()).mapTo(PatientModel.class);
+        PatientModel patient = (PatientModel) delex.getVariable("patient");
 
         diagnosis.setPatient(patient);
 

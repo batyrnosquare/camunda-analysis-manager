@@ -1,12 +1,9 @@
 package com.batyrnosquare.demo.diagnosis;
 
 import com.batyrnosquare.demo.patients.PatientModel;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 @Entity(name = "diagnosis")
 public class DiagnosisModel {
@@ -20,8 +17,6 @@ public class DiagnosisModel {
 
     @ManyToOne
     @JoinColumn(name = "patient_id")
-    @JsonBackReference
-    @Cascade(CascadeType.ALL)
     private PatientModel patient;
 
     @JsonCreator

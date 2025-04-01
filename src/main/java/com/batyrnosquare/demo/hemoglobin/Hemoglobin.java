@@ -7,7 +7,6 @@ import com.batyrnosquare.demo.diagnosis.DiagnosisRepository;
 import com.batyrnosquare.demo.patients.PatientModel;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
-import org.camunda.spin.Spin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -27,7 +26,7 @@ public class Hemoglobin implements JavaDelegate {
     public void execute(DelegateExecution delex) throws Exception {
 
         DiagnosisModel diagnosis = new DiagnosisModel();
-        PatientModel patient = Spin.JSON(delex.getVariableTyped("patient").getValue()).mapTo(PatientModel.class);
+        PatientModel patient = (PatientModel) delex.getVariable("patient");
         diagnosis.setPatient(patient);
 
         Gender gender = patient.getGender();
@@ -50,7 +49,6 @@ public class Hemoglobin implements JavaDelegate {
 
 
         delex.setVariable("isAnemic", isAnemic);
-        log.info(String.valueOf(isAnemic));
         diagnosisRepository.save(diagnosis);
     }
 }

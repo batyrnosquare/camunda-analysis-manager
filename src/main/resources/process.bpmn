@@ -4,7 +4,6 @@
     <bpmn:extensionElements />
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>Flow_0ays3gm</bpmn:outgoing>
-      <bpmn:outgoing>Flow_0jynri7</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="SequenceFlow_16gzt2m" sourceRef="say-hello" targetRef="Activity_1l5kqky" />
     <bpmn:userTask id="say-hello" name="Diabetes" camunda:candidateUsers="demo">
@@ -21,7 +20,6 @@
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_14yg38k</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_16gzt2m</bpmn:outgoing>
-      <bpmn:outgoing>Flow_1d6bml1</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:userTask id="Activity_1tgk46y" name="Anemia" camunda:candidateUsers="demo">
       <bpmn:extensionElements>
@@ -35,7 +33,6 @@
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0il2two</bpmn:incoming>
       <bpmn:outgoing>Flow_09wjd4o</bpmn:outgoing>
-      <bpmn:outgoing>Flow_1hmohln</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:userTask id="Activity_11dujjj" name="No Diagnosis" camunda:candidateUsers="demo">
       <bpmn:extensionElements>
@@ -50,7 +47,6 @@
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0bkq3q1</bpmn:incoming>
       <bpmn:outgoing>Flow_0b78beg</bpmn:outgoing>
-      <bpmn:outgoing>Flow_08chu3d</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:sequenceFlow id="Flow_07nczh3" sourceRef="Activity_1l5kqky" targetRef="Activity_01uaqol" />
     <bpmn:serviceTask id="Activity_1l5kqky" name="Diabetic Treatment" camunda:delegateExpression="#{diabeticTreatmentDelegate}">
@@ -118,7 +114,6 @@
           <camunda:outputParameter name="isAnemic">${isAnemic}</camunda:outputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
-      <bpmn:incoming>Flow_0itmjeq</bpmn:incoming>
       <bpmn:incoming>Flow_15lkdiq</bpmn:incoming>
       <bpmn:outgoing>Flow_0xnpumq</bpmn:outgoing>
       <bpmn:outgoing>Flow_1rkw2fo</bpmn:outgoing>
@@ -132,7 +127,7 @@
     </bpmn:subProcess>
     <bpmn:sequenceFlow id="Flow_0xnpumq" sourceRef="Activity_068ocwz" targetRef="Gateway_1bvgsrg" />
     <bpmn:subProcess id="Activity_1o37d5q">
-      <bpmn:incoming>Flow_0vky1ny</bpmn:incoming>
+      <bpmn:incoming>Flow_0nmry60</bpmn:incoming>
       <bpmn:outgoing>Flow_0rye705</bpmn:outgoing>
       <bpmn:outgoing>Flow_1d24xkx</bpmn:outgoing>
       <bpmn:startEvent id="Event_1k7i2pv">
@@ -200,7 +195,6 @@
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_10savw5</bpmn:incoming>
       <bpmn:outgoing>Flow_1e60szc</bpmn:outgoing>
-      <bpmn:outgoing>Flow_1qrsemj</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:userTask id="Activity_0jf0lji" name="Thrombocytosis" camunda:candidateUsers="demo">
       <bpmn:extensionElements>
@@ -214,7 +208,6 @@
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1xzzzbt</bpmn:incoming>
       <bpmn:outgoing>Flow_1tosgjp</bpmn:outgoing>
-      <bpmn:outgoing>Flow_1p962ad</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:serviceTask id="Activity_11uju4k" name="Thrombocytopenic Treatment" camunda:delegateExpression="#{thrombocytopenicTreatmentDelegate}">
       <bpmn:extensionElements>
@@ -307,29 +300,12 @@
     <bpmn:sequenceFlow id="Flow_0b78beg" sourceRef="Activity_11dujjj" targetRef="Gateway_1aiazhs" />
     <bpmn:serviceTask id="Activity_1f6wc8y" name="USER DB" camunda:delegateExpression="#{patientDelegate}">
       <bpmn:extensionElements />
-      <bpmn:incoming>Flow_0jynri7</bpmn:incoming>
-      <bpmn:outgoing>Flow_0itmjeq</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="Flow_0ays3gm" sourceRef="StartEvent_1" targetRef="Activity_1jgcd93" />
-    <bpmn:userTask id="Activity_1jgcd93" name="Take Analysis">
       <bpmn:incoming>Flow_0ays3gm</bpmn:incoming>
-      <bpmn:outgoing>Flow_15lkdiq</bpmn:outgoing>
       <bpmn:outgoing>Flow_0zgionr</bpmn:outgoing>
-      <bpmn:outgoing>Flow_0vky1ny</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:sequenceFlow id="Flow_1hmohln" sourceRef="Activity_1tgk46y" targetRef="Gateway_1pzqcwx" />
-    <bpmn:sequenceFlow id="Flow_08chu3d" sourceRef="Activity_11dujjj" targetRef="Gateway_1pzqcwx" />
-    <bpmn:sequenceFlow id="Flow_1d6bml1" sourceRef="say-hello" targetRef="Gateway_1pzqcwx" />
-    <bpmn:sequenceFlow id="Flow_1qrsemj" sourceRef="Activity_03pkm1x" targetRef="Gateway_1pzqcwx" />
-    <bpmn:sequenceFlow id="Flow_1p962ad" sourceRef="Activity_0jf0lji" targetRef="Gateway_1pzqcwx" />
-    <bpmn:inclusiveGateway id="Gateway_1pzqcwx">
-      <bpmn:incoming>Flow_1hmohln</bpmn:incoming>
-      <bpmn:incoming>Flow_08chu3d</bpmn:incoming>
-      <bpmn:incoming>Flow_1d6bml1</bpmn:incoming>
-      <bpmn:incoming>Flow_1qrsemj</bpmn:incoming>
-      <bpmn:incoming>Flow_1p962ad</bpmn:incoming>
-      <bpmn:outgoing>Flow_1tis6dx</bpmn:outgoing>
-    </bpmn:inclusiveGateway>
+      <bpmn:outgoing>Flow_15lkdiq</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0nmry60</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0ays3gm" sourceRef="StartEvent_1" targetRef="Activity_1f6wc8y" />
     <bpmn:inclusiveGateway id="Gateway_1h0n0s9">
       <bpmn:incoming>Flow_089zfuf</bpmn:incoming>
       <bpmn:incoming>Flow_1mzdrox</bpmn:incoming>
@@ -340,16 +316,9 @@
     <bpmn:sequenceFlow id="Flow_1mzdrox" sourceRef="Activity_01uaqol" targetRef="Gateway_1h0n0s9" />
     <bpmn:sequenceFlow id="Flow_0ke3fec" sourceRef="Activity_062n0b9" targetRef="Gateway_1h0n0s9" />
     <bpmn:sequenceFlow id="Flow_11718xx" sourceRef="Activity_09t7kf3" targetRef="Gateway_1h0n0s9" />
-    <bpmn:task id="Activity_0hq8p9t" />
-    <bpmn:sequenceFlow id="Flow_1tis6dx" sourceRef="Gateway_1pzqcwx" targetRef="Activity_1xy95rr" />
-    <bpmn:serviceTask id="Activity_1xy95rr" name="SET DIAGNOSIS" camunda:delegateExpression="#{diagnosisDelegate}">
-      <bpmn:incoming>Flow_1tis6dx</bpmn:incoming>
-    </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="Flow_0itmjeq" sourceRef="Activity_1f6wc8y" targetRef="Activity_068ocwz" />
-    <bpmn:sequenceFlow id="Flow_15lkdiq" sourceRef="Activity_1jgcd93" targetRef="Activity_068ocwz" />
-    <bpmn:sequenceFlow id="Flow_0zgionr" sourceRef="Activity_1jgcd93" targetRef="Activity_0mnk8tg" />
-    <bpmn:sequenceFlow id="Flow_0vky1ny" sourceRef="Activity_1jgcd93" targetRef="Activity_1o37d5q" />
-    <bpmn:sequenceFlow id="Flow_0jynri7" sourceRef="StartEvent_1" targetRef="Activity_1f6wc8y" />
+    <bpmn:sequenceFlow id="Flow_15lkdiq" sourceRef="Activity_1f6wc8y" targetRef="Activity_068ocwz" />
+    <bpmn:sequenceFlow id="Flow_0zgionr" sourceRef="Activity_1f6wc8y" targetRef="Activity_0mnk8tg" />
+    <bpmn:sequenceFlow id="Flow_0nmry60" sourceRef="Activity_1f6wc8y" targetRef="Activity_1o37d5q" />
     <bpmn:group id="Group_10fj7ug" categoryValueRef="CategoryValue_093pwwb" />
     <bpmn:group id="Group_0voj8os" categoryValueRef="CategoryValue_1jy8klh" />
     <bpmn:group id="Group_0883bbg" categoryValueRef="CategoryValue_0003u2a" />
@@ -412,11 +381,7 @@
         <dc:Bounds x="2890" y="290" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_174ramy_di" bpmnElement="Activity_1f6wc8y">
-        <dc:Bounds x="360" y="1090" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_130g7kv_di" bpmnElement="Activity_1jgcd93">
-        <dc:Bounds x="590" y="490" width="100" height="80" />
+        <dc:Bounds x="590" y="500" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_068ocwz_di" bpmnElement="Activity_068ocwz" isExpanded="true" bioc:stroke="#0d4372" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#0d4372">
@@ -495,25 +460,9 @@
       <bpmndi:BPMNShape id="Gateway_1p479uc_di" bpmnElement="Gateway_1bvgsrg">
         <dc:Bounds x="1475" y="455" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_1dpvdti_di" bpmnElement="Gateway_1pzqcwx">
-        <dc:Bounds x="705" y="1155" width="50" height="50" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_01ksx4z" bpmnElement="Gateway_1h0n0s9">
         <dc:Bounds x="675" y="1255" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0hq8p9t_di" bpmnElement="Activity_0hq8p9t">
-        <dc:Bounds x="490" y="1240" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1pmwve6_di" bpmnElement="Activity_1xy95rr">
-        <dc:Bounds x="560" y="1140" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_0itmjeq_di" bpmnElement="Flow_0itmjeq">
-        <di:waypoint x="450" y="1090" />
-        <di:waypoint x="860" y="1090" />
-        <di:waypoint x="860" y="280" />
-        <di:waypoint x="1039" y="280" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_15lkdiq_di" bpmnElement="Flow_15lkdiq">
         <di:waypoint x="690" y="530" />
         <di:waypoint x="865" y="530" />
@@ -526,14 +475,9 @@
         <di:waypoint x="865" y="780" />
         <di:waypoint x="1039" y="780" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0vky1ny_di" bpmnElement="Flow_0vky1ny">
+      <bpmndi:BPMNEdge id="Flow_0nmry60_di" bpmnElement="Flow_0nmry60">
         <di:waypoint x="690" y="530" />
         <di:waypoint x="1039" y="530" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0jynri7_di" bpmnElement="Flow_0jynri7">
-        <di:waypoint x="288" y="530" />
-        <di:waypoint x="410" y="530" />
-        <di:waypoint x="410" y="1090" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Group_10fj7ug_di" bpmnElement="Group_10fj7ug" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
         <dc:Bounds x="2040" y="50" width="170" height="980" />
@@ -695,36 +639,6 @@
         <di:waypoint x="288" y="530" />
         <di:waypoint x="590" y="530" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1hmohln_di" bpmnElement="Flow_1hmohln">
-        <di:waypoint x="1880" y="330" />
-        <di:waypoint x="1910" y="330" />
-        <di:waypoint x="1910" y="1180" />
-        <di:waypoint x="755" y="1180" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_08chu3d_di" bpmnElement="Flow_08chu3d">
-        <di:waypoint x="1880" y="170" />
-        <di:waypoint x="1910" y="170" />
-        <di:waypoint x="1910" y="1170" />
-        <di:waypoint x="745" y="1170" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1d6bml1_di" bpmnElement="Flow_1d6bml1">
-        <di:waypoint x="1880" y="480" />
-        <di:waypoint x="1910" y="480" />
-        <di:waypoint x="1910" y="1190" />
-        <di:waypoint x="745" y="1190" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1qrsemj_di" bpmnElement="Flow_1qrsemj">
-        <di:waypoint x="1880" y="640" />
-        <di:waypoint x="1910" y="640" />
-        <di:waypoint x="1910" y="1200" />
-        <di:waypoint x="735" y="1200" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1p962ad_di" bpmnElement="Flow_1p962ad">
-        <di:waypoint x="1880" y="910" />
-        <di:waypoint x="1910" y="910" />
-        <di:waypoint x="1910" y="1160" />
-        <di:waypoint x="735" y="1160" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_089zfuf_di" bpmnElement="Flow_089zfuf">
         <di:waypoint x="2510" y="330" />
         <di:waypoint x="2580" y="330" />
@@ -748,10 +662,6 @@
         <di:waypoint x="2580" y="910" />
         <di:waypoint x="2580" y="1260" />
         <di:waypoint x="705" y="1260" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1tis6dx_di" bpmnElement="Flow_1tis6dx">
-        <di:waypoint x="705" y="1180" />
-        <di:waypoint x="660" y="1180" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_1ktkf83_di" bpmnElement="Association_1ktkf83">
         <di:waypoint x="320" y="965" />
