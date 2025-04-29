@@ -2,7 +2,6 @@ package com.batyrnosquare.demo.platelet;
 
 import com.batyrnosquare.demo.constants.AppConstants;
 import com.batyrnosquare.demo.diagnosis.DiagnosisRepository;
-import com.batyrnosquare.demo.patients.PatientModel;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.stereotype.Component;
@@ -18,7 +17,6 @@ public class ThrombocytopenicTreatment implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
-        PatientModel patient = (PatientModel) delegateExecution.getVariable("patient");
         int platelet = (int) delegateExecution.getVariable("platelet");
 
         delegateExecution.setVariable("treatment", "Platelet transfusion = +" + (AppConstants.PLATELET_LOWER_LIMIT - platelet) + " x10^9/L");

@@ -5,6 +5,17 @@ spring:
     password: cityzens
     hikari:
       driver-class-name: org.postgresql.Driver
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: shayrbekov05@gmail.com
+    password: qtce zile dlqa kzym
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 camunda:
   bpm:
     admin-user:

@@ -5,11 +5,14 @@ import com.batyrnosquare.demo.constants.Gender;
 import com.batyrnosquare.demo.diagnosis.DiagnosisModel;
 import com.batyrnosquare.demo.diagnosis.DiagnosisRepository;
 import com.batyrnosquare.demo.patients.PatientModel;
+import com.batyrnosquare.demo.patients.PatientRepository;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
 @Component("hemoglobinDelegate")
 public class Hemoglobin implements JavaDelegate {
@@ -17,16 +20,21 @@ public class Hemoglobin implements JavaDelegate {
     private static final Logger log = LoggerFactory.getLogger(Hemoglobin.class);
 
     private final DiagnosisRepository diagnosisRepository;
+    private final PatientRepository patientRepository;
 
-    public Hemoglobin(DiagnosisRepository diagnosisRepository) {
+    public Hemoglobin(DiagnosisRepository diagnosisRepository, PatientRepository patientRepository) {
         this.diagnosisRepository = diagnosisRepository;
+        this.patientRepository = patientRepository;
     }
 
     @Override
     public void execute(DelegateExecution delex) throws Exception {
 
         DiagnosisModel diagnosis = new DiagnosisModel();
-        PatientModel patient = (PatientModel) delex.getVariable("patient");
+        Long patientId = (Long) delex.getVariable("patientId");
+
+        PatientModel patient = patientRepository.findById(patientId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient not found"));
         diagnosis.setPatient(patient);
 
         Gender gender = patient.getGender();

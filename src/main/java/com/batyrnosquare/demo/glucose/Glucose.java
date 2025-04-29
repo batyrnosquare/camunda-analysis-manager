@@ -4,25 +4,32 @@ import com.batyrnosquare.demo.constants.AppConstants;
 import com.batyrnosquare.demo.diagnosis.DiagnosisModel;
 import com.batyrnosquare.demo.diagnosis.DiagnosisRepository;
 import com.batyrnosquare.demo.patients.PatientModel;
+import com.batyrnosquare.demo.patients.PatientRepository;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
 @Component("glucoseDelegate")
 public class Glucose implements JavaDelegate {
 
     private final DiagnosisRepository diagnosisRepository;
+    private final PatientRepository patientRepository;
 
-    public Glucose(DiagnosisRepository diagnosisRepository) {
+    public Glucose(DiagnosisRepository diagnosisRepository, PatientRepository patientRepository) {
         this.diagnosisRepository = diagnosisRepository;
+        this.patientRepository = patientRepository;
     }
 
 
     @Override
     public void execute(DelegateExecution delex) throws Exception {
         DiagnosisModel diagnosis = new DiagnosisModel();
+        Long patientId = (Long) delex.getVariable("patientId");
 
-        PatientModel patient = (PatientModel) delex.getVariable("patient");
+        PatientModel patient = patientRepository.findById(patientId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient not found"));
 
         diagnosis.setPatient(patient);
 

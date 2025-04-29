@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AnalysisRepository extends JpaRepository<AnalysisModel, Long>{
-
+    AnalysisModel findTopByPatient_IdOrderByIdDesc(Long patientId);
 }

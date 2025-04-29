@@ -1,6 +1,7 @@
 package com.batyrnosquare.demo.diagnosis;
 
 import com.batyrnosquare.demo.patients.PatientModel;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -17,6 +18,7 @@ public class DiagnosisModel {
 
     @ManyToOne
     @JoinColumn(name = "patient_id")
+    @JsonBackReference
     private PatientModel patient;
 
     @JsonCreator
